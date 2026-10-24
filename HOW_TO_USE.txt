@@ -1,0 +1,63 @@
+HOW TO USE: stem-to-midi-orchestrator
+==================================================
+
+PURPOSE
+  End-to-end multi-instrument audio-to-MIDI orchestrator that isolates mixed
+  audio into individual stems, runs instrument-specific Basic Pitch neural models,
+  and compiles both individual MIDI tracks and a unified multi-track Type 1 MIDI
+  arrangement file (.mid).
+
+CAPABILITIES
+  - End-to-end audio file processing (automatic stem separation + MIDI transcription)
+  - Transcribes existing stem folders without re-running audio separation
+  - Instrument-tuned Basic Pitch neural models:
+    * Vocals: Monophonic lead tracking, breath rejection, and pitch bend smoothing
+    * Bass: Low-frequency clamping (<320 Hz) and legato gap consolidation
+    * Guitar: Polyphonic strumming onset alignment
+    * Piano: Wide dynamic velocity tracking and full keyboard chord voicings
+    * Other: Synthesizer polyphony, strings, and pad harmony extraction
+  - Compiles a unified multi-track Type 1 MIDI arrangement with General MIDI program numbers
+  - Direct integration with Ableton Live, Logic, FL Studio, and Reaper
+
+USE CASES
+  - Convert a finished full mix into editable multi-track MIDI arrangements
+  - Extract lead vocal melodies into MIDI for driving synths or autotune guides
+  - Reverse-engineer basslines, chord progressions, and guitar solos from audio
+  - Create interactive karaoke and sheet music lead sheets from recorded audio
+  - Remix audio songs using modern virtual synths and samplers in your DAW
+
+IDEAS
+  - Load the resulting Type 1 arrangement MIDI directly into Ableton Live to replace instruments
+  - Pair with chord-progression-recommender or reharmonization-engine to upgrade extracted chords
+  - Use transcribed vocal melody MIDI to create synthetic vocal doubles with build-a-voice
+  - Feed the extracted bass MIDI into bassline-extractor for specialized sub-bass synthesis
+  - Generate full instrumental covers from scratch by re-voicing each MIDI track
+
+PROMPTS YOU CAN PASTE
+  Transcribe this song "C:\Music\Track.mp3" into a full multi-track MIDI arrangement.
+
+  I have a folder of stems at "C:\Music\Song_stems". Can you turn all stems into MIDI?
+
+  Extract all instrument stems and generate a single multi-track Type 1 MIDI file.
+
+  Convert the vocal, bass, and guitar parts of this audio file into separate MIDI tracks.
+
+EXAMPLE FLOW
+  You:   Transcribe "C:\Audio\Song.wav" into a full multi-track MIDI arrangement.
+  Model: [Runs SOTA stem separation: Mel-Band RoFormer vocals + Kuielab bass]
+         [Transcribes each isolated stem with tailored Basic Pitch models]
+         [Compiles unified multi-track Type 1 MIDI arrangement]
+         Results saved in: C:\Audio\Song_stems\
+         - Lead Vocal MIDI: [vocals.mid](file:///C:/Audio/Song_stems/vocals.mid)
+         - Bassline MIDI:   [bass.mid](file:///C:/Audio/Song_stems/bass.mid)
+         - Guitar MIDI:     [guitar.mid](file:///C:/Audio/Song_stems/guitar.mid)
+         - Piano MIDI:      [piano.mid](file:///C:/Audio/Song_stems/piano.mid)
+         - Synth/Other MIDI:[other.mid](file:///C:/Audio/Song_stems/other.mid)
+         - Full Multi-Track:[Song_full_arrangement.mid](file:///C:/Audio/Song_stems/Song_full_arrangement.mid)
+
+DEFAULT GOALS IF YOU DON'T NAME ONE
+  1. Determine if target is a raw audio file or an existing stems directory.
+  2. If raw audio, run SOTA 6-source separation into `{song_dir}/{song}_stems/`.
+  3. Execute stem-tuned Spotify Basic Pitch transcription on vocals, bass, guitar, piano, and other.
+  4. Merge individual MIDI files into a single unified Type 1 MIDI file with General MIDI program IDs.
+  5. Return clickable links to each individual MIDI clip and the unified multi-track arrangement.
